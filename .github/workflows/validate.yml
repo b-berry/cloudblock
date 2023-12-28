@@ -1,0 +1,16 @@
+name: terraform-validate
+run-name: ${{ github.actor }} is validating Terraform
+on: [push]
+jobs:
+  terraform-validate:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./aws
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: '1.1.6'
+      - run: terraform init -var-file vars/us-west-2.tfvars
+      - run: terraform validate
